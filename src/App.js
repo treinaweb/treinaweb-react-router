@@ -1,18 +1,29 @@
 import Index from './pages/index';
 import About from './pages/about';
 import Produtos, { Produto } from './pages/produtos';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useRoutes } from 'react-router-dom';
 
 function App() {
+    const element = useRoutes([
+        {
+            path: '/',
+            element: <Index />,
+        },
+        {
+            path: 'produtos/*',
+            element: <Produtos />,
+            children: [
+                {
+                    path: ':id',
+                    element: <Produto />,
+                },
+            ],
+        },
+    ]);
+
     return (
         <div>
-            <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="about/:id" element={<About />} />
-                <Route path="produtos/*" element={<Produtos />}>
-                    <Route path=":id" element={<Produto />} />
-                </Route>
-            </Routes>
+            {element}
 
             {/* <Link to="/">Home</Link> */}
             {/* <Link to="produtos">Produtos</Link> */}
